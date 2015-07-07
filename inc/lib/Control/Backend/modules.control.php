@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150312
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -38,6 +38,7 @@ if (isset($_POST['upload'])) {
         if ($zip->open($mod['filepath']) === TRUE) {
             $zip->extractTo(GX_MOD);
             $zip->close();
+            Hooks::run('module_install_action', $mod);
             $data['alertgreen'][] = MSG_MOD_INSTALLED;
         } else {
             $data['alertred'][] = MSG_MOD_CANT_EXTRACT;

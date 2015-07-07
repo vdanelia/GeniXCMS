@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20140925
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -22,30 +22,33 @@ class System
     * GeniXCMS Version Variable
     * @return double
     */
-    static $version          = "0.0.4";
+    static $version          = "0.0.6";
 
     /**
     * GeniXCMS Version Release
     * @return string
     */
-    static $v_release        = "patch";
+    static $v_release        = "";
 
     /**
     * System Constructor.
-    * Initializing the system, check the config file, if exist run the config
-    * loader.
+    * Initializing the system, check the config file
+    * 
     * @author Puguh Wijayanto (www.metalgenix.com)
     * @since 0.0.1
     */
     public function __construct () {
         self::config('config');
         new Db();
+        new Hooks();
         self::lang(Options::get('system_lang'));
         new Site();
         Vendor::autoload();
         Token::create();
         Mod::loader();
         Theme::loader();
+
+        Hooks::run('init');
     }
 
     /**

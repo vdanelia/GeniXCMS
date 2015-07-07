@@ -6,8 +6,8 @@
             echo "
             <div class=\"blog-post\">
                 <h2 class=\"blog-post-title\"><a href=\"".Url::post($p->id)."\">$p->title</a></h2>
-                <p class=\"blog-post-meta\">{$p->date} by <a href=\"#\">{$p->author}</a></p>
-                ".Posts::content($p->content)."
+                <p class=\"blog-post-meta\">".Date::format($p->date)." by <a href=\"#\">{$p->author}</a></p>
+                ".Posts::format($p->content, $p->id)."
             </div>
                 ";
         }

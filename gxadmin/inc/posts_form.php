@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150202
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -78,6 +78,9 @@ if(isset($data['post'])) {
 ?>
 <form action="index.php?page=posts&act=<?=$act?>&token=<?=$_GET['token'];?>" method="post" role="form" class="">
 <div class="row">
+    <div class="col-md-12">
+        <?=Hooks::run('admin_page_notif_action', $data);?>
+    </div>
     <div class="col-md-12">
         <h1><i class="fa fa-file-text-o"></i> <?=$pagetitle;?> <?=POST;?>
             <div class="pull-right">

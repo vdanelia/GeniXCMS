@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150312
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -41,6 +41,7 @@ if (isset($_GET['view']) && $_GET['view'] == 'options') {
             if ($zip->open($theme['filepath']) === TRUE) {
                 $zip->extractTo(GX_THEME);
                 $zip->close();
+                Hooks::run('theme_install_action', $theme);
                 $data['alertgreen'][] = MSG_THEME_INSTALLED;
             } else {
                 $data['alertred'][] = MSG_THEME_CANT_EXTRACT;

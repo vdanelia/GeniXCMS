@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20141006
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -30,6 +30,7 @@ if(Db::$num_rows > 0) {
     Theme::theme('header',$data);
     Theme::theme('single', $data);
     Theme::footer();
+    Stats::addViews($post);
     exit;
 }else{
     Control::error('404');

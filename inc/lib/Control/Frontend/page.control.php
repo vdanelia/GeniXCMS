@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20141006
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -25,7 +25,7 @@ switch ($_GET['page']) {
     default:
         # code...
         $page = Typo::cleanX(
-                    $_GET['page']
+                    Typo::strip($_GET['page'])
                 );
         $data['posts'] = Db::result(
                             sprintf("SELECT * FROM `posts` 
@@ -41,6 +41,7 @@ switch ($_GET['page']) {
             Theme::theme('header',$data);
             Theme::theme('page', $data);
             Theme::footer();
+            Stats::addViews($page);
             exit;
         }else{
             Control::error('404');

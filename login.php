@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20140928
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -90,6 +90,7 @@ if(isset($_POST['login']))
 					*/
 					//print_r($_SESSION);
 					$alertgreen = MSG_USER_LOGGED_IN;
+					echo Hooks::run('user_login_action');
 				}elseif($p != $pass){
 					$alertred[] = PASS_NOT_MATCH;
 				}

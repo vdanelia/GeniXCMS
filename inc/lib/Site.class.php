@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20141004
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -73,43 +73,43 @@ class Site
         }else{
             $desc = "";
         }
-
-        $meta = "
+        $cont_title = Hooks::filter('site_title_filter', $cont_title);
+        $keyword = Hooks::filter('site_key_filter', self::$key);
+        echo "
     <!--// Start Meta: Generated Automaticaly by GeniXCMS -->
     <meta charset=\"".Options::get('charset')."\">";
-        $meta .= "
+        echo "
     <!-- SEO: Title stripped 70chars for SEO Purpose -->
     <title>{$cont_title}".self::$name."</title>
-    <meta name=\"Keyword\" content=\"".self::$key."\">
+    <meta name=\"Keyword\" content=\"".$keyword."\">
     <!-- SEO: Description stripped 150chars for SEO Purpose -->
     <meta name=\"Description\" content=\"".self::desc($desc)."\">";
     if (isset($data['posts'][0]->author) && !isset($data['posts'][1]->author)) {
-         $meta .= "
+         echo "
     <meta name=\"Author\" content=\"{$data['posts'][0]->author}\">";
     }
-        $meta .= "
+        echo "
     <meta name=\"Generator\" content=\"GeniXCMS ".System::v()."\">
     <meta name=\"robots\" content=\"".Options::get('robots')."\">
     <link rel=\"shortcut icon\" href=\"".Options::get('siteicon')."\" />
         ";
-
-        $meta .= "
+        echo Hooks::run('header_load_meta', $data);
+        echo "
     <!-- Generated Automaticaly by GeniXCMS :End Meta //-->";
-        echo $meta;
+        // echo $meta;
+
     }
 
 
 
     public static function footer(){
-       //global $editors;
+        global $data;
         //echo $GLOBALS['editor'].' one '. self::$editors;
         $foot ="";
         $bs = Options::get('use_bootstrap');
         if($bs == 'on'){
             $foot .= "
     <link href=\"".self::$url."/assets/css/bootstrap.min.css\" rel=\"stylesheet\">\n";
-            $foot .= "
-    <link href=\"".self::$url."/assets/css/bootstrap-theme.min.css\" rel=\"stylesheet\">\n";
         }
 
         $jquery = Options::get('use_jquery');
@@ -145,8 +145,9 @@ class Site
 
             \t<link href=\"".self::$url."/assets/css/summernote.css\" rel=\"stylesheet\">
             \t<script src=\"".self::$url."/assets/js/summernote.min.js\"></script>
-            \t<script src=\"".self::$url."/assets/js/plugins/summernote-ext-fontstyle.js\"></script>
+            \t<script src=\"".self::$url."/assets/js/plugins/summernote-ext-hint.js\"></script>
             \t<script src=\"".self::$url."/assets/js/plugins/summernote-ext-video.js\"></script>
+            \t<script src=\"".self::$url."/assets/js/plugins/summernote-ext-genixcms.js\"></script>
             \t<script>
               \t$(document).ready(function() {
                 \t$('.editor').summernote({
@@ -160,7 +161,7 @@ class Site
                             \t['para', ['ul', 'ol', 'paragraph']],
                             \t['height', ['height']],
                             \t['table', ['table']],
-                            \t['insert', ['link', 'picture', 'video', 'hr']],
+                            \t['insert', ['link', 'picture', 'video', 'hr', 'readmore']],
                             \t['view', ['fullscreen', 'codeview']],
                             \t['help', ['help']]
                         \t],
@@ -181,7 +182,7 @@ class Site
                         \ttype: 'POST',
                         \tsuccess: function(data){
                         \talert(data);
-                          \teditor.insertImage(welEditable, data);
+                          \t$('.editor').summernote('editor.insertImage', data);
                         \t},
                        \terror: function(jqXHR, textStatus, errorThrown) {
                          \tconsole.log(textStatus+\" \"+errorThrown);
@@ -209,6 +210,7 @@ class Site
 
 
         echo $foot;
+        echo Hooks::run('footer_load_lib', $data);
     }
 
     public static function desc($vars){
@@ -217,7 +219,7 @@ class Site
         }else{
             $desc = substr(self::$desc,0,150);
         }
-
+        $desc = Hooks::filter('site_desc_filter', $desc);
         return $desc;
     }
 

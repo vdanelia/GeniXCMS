@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150202
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -44,6 +44,9 @@
     }
 ?>
 <div class="row">
+    <div class="col-md-12">
+        <?=Hooks::run('admin_page_notif_action', $data);?>
+    </div>
     <div class="col-md-12">
         <h1><i class="fa fa-group"></i> <?=USERS;?>
             <button class="btn btn-success pull-right" data-toggle="modal" data-target="#adduser">
@@ -162,7 +165,8 @@
                 <th><?=EMAIL;?></th>
                 <th><?=STATUS;?></th>
                 <th><?=GROUP;?></th>
-                <th colspan=2>
+                <th><?=DATE;?></th>
+                <th >
                 <select name="action" class="form-control">
                     <option value="activate"><?=ACTIVATE;?></option>
                     <option value="deactivate"><?=DEACTIVATE;?></option>
@@ -172,7 +176,7 @@
                 </th>
                 <th>
                     <button type="submit" name="doaction" class="btn btn-danger btn-sm">
-                        <?=SUBMIT;?>
+                        <span class="glyphicon glyphicon-ok"></span>
                     </button>
                 </th>
             </tfoot>

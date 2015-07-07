@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150202
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -23,6 +23,48 @@ if (isset($_GET['token'])
 }
 ($_GET['act'] == "edit")? $pagetitle = 'Edit': $pagetitle = 'New';
 ($_GET['act'] == "edit")? $act = "edit&id={$_GET['id']}&token={$_GET['token']}": $act = "add";
+
+if(isset($data['post']) ) {
+    if (!isset($data['post']['error'])) {
+        //print_r($data['post']);
+        foreach ($data['post'] as $p) {
+            # code...
+            $title = $p->title;
+            $content = $p->content;
+            $date = $p->date;
+            $status = $p->status;
+            $cat = $p->cat;
+            $tags = @$p->tags;
+        }
+        if($status == 1) {
+            $pub = "SELECTED"; 
+            $unpub = ""; 
+        }elseif ($status == 0) {
+            $pub = ""; 
+            $unpub = "SELECTED";
+        }
+    }else{
+        $title = "";
+        $content = "";
+        $date = "";
+        $status = "";
+        $cat = "";
+        $pub = "";
+        $unpub = "";
+        $tags = "";
+        $data['alertred'][] = $data['post']['error'];
+    }
+    
+}else{
+    $title = "";
+    $content = "";
+    $date = "";
+    $status = "";
+    $cat = "";
+    $pub = "";
+    $unpub = "";
+    $tags = "";
+}
 
 if (isset($data['alertgreen'])) {
     # code...
@@ -53,34 +95,13 @@ if (isset($data['alertred'])) {
     echo "</div>";
 }
 
-    if(isset($data['post'])) {
-        foreach ($data['post'] as $p) {
-            # code...
-            $title = $p->title;
-            $content = $p->content;
-            $date = $p->date;
-            $status = $p->status;
-            $cat = $p->cat;
-        }
-        if($status == 1) {
-            $pub = "SELECTED"; 
-            $unpub = ""; 
-        }elseif ($status == 0) {
-            $pub = ""; 
-            $unpub = "SELECTED";
-        }
-    }else{
-        $title = "";
-        $content = "";
-        $date = "";
-        $status = "";
-        $cat = "";
-        $pub = "";
-        $unpub = "";
-    }
+    
 ?>
 <form action="index.php?page=pages&act=<?=$act?>&token=<?=$_GET['token'];?>" method="post" role="form" class="">
 <div class="row">
+    <div class="col-md-12">
+        <?=Hooks::run('admin_page_notif_action', $data);?>
+    </div>
     <div class="col-md-12">
         <h1><i class="fa fa-file-o"></i> <?=$pagetitle;?> <?=PAGE;?> 
             <div class="pull-right">
@@ -131,6 +152,16 @@ if (isset($data['alertred'])) {
                                 <input type="text" name="date" class="form-control" value="<?=$date;?>">
                                 <small><?=LEFT_IT_BLANK_NOW_DATE;?></small>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?=TAGS;?></h3>
+                        </div>
+                        <div class="panel-body">
+                            <textarea name="tags" class="form-control"><?=$tags;?></textarea>
+                            <small><?=TAGS_DESC;?></small>
                         </div>
                     </div>
                 </div>

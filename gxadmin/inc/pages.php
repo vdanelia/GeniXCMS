@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150202
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -42,6 +42,9 @@ if (isset($data['alertred'])) {
 }
 ?>
 <div class="row">
+    <div class="col-md-12">
+        <?=Hooks::run('admin_page_notif_action', $data);?>
+    </div>
     <div class="col-md-12">
         <h1><i class="fa fa-file-o"></i> <?=PAGES;?> 
             <a href="index.php?page=pages&act=add&token=<?=TOKEN;?>" class="btn btn-primary pull-right">
@@ -161,7 +164,7 @@ if (isset($data['alertred'])) {
                         </th>
                         <th>
                             <button type="submit" name="doaction" class="btn btn-danger">
-                                 <span class="glyphicon glyphicon-ok"></span> <?=SUBMIT;?>
+                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
                         </th>
                     </tfoot>

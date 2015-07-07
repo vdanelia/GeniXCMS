@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20140925
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -97,6 +97,7 @@ class User
                             );
                 Db::insert($sql);
             }
+            Hooks::run('user_sqladd_action', $vars);
         }
 
         return $db;
@@ -152,6 +153,7 @@ class User
                             );
                 Db::update($sql);
             }
+            Hooks::run('user_sqledit_action', $vars);
             
         }
     }
@@ -172,6 +174,7 @@ class User
                             )
             );
         Db::delete($vars);
+        Hooks::run('user_sqldel_action', $vars);
     }
 
     // $vars = array(

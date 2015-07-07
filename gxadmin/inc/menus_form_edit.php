@@ -6,7 +6,7 @@
 *
 * @package GeniXCMS
 * @since 0.0.1 build date 20150202
-* @version 0.0.4
+* @version 0.0.6
 * @link https://github.com/semplon/GeniXCMS
 * @link http://genixcms.org
 * @author Puguh Wijayanto (www.metalgenix.com)
@@ -61,6 +61,9 @@ if (isset($_GET['token'])
 <form action="" method="POST">
 <div class="row">
     <div class="col-md-12">
+        <?=Hooks::run('admin_page_notif_action', $data);?>
+    </div>
+    <div class="col-md-12">
 <h1><i class="fa fa-sitemap"></i> <?=MENU_EDIT;?>
 <div class="pull-right">
 <button type="submit" name="edititem" class="btn btn-success">
@@ -87,7 +90,7 @@ if (isset($_GET['token'])
                 
                 foreach ($data['parent'] as $p) {
                     # code...
-                    if($p->parent == ''){
+                    if($p->parent == '0'){
                         if($data['menus'][0]->parent == $p->id){
                             $sel = 'SELECTED';
                         }else{
